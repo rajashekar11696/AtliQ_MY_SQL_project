@@ -251,4 +251,35 @@ WHERE rank_order <= 3
 ORDER BY division, rank_order;
 ```
 
-Feel free to adjust or expand on these queries based on your specific requirements or database schema.
+## Findings
+
+### 1. Market Presence for "Atliq Exclusive" in APAC
+The query reveals the specific markets within the APAC region where "Atliq Exclusive" operates, providing a clear view of the company's regional footprint.
+
+### 2. Percentage Increase in Unique Products (2021 vs 2020)
+This analysis shows the growth in the number of unique products from 2020 to 2021, with a calculated percentage change. It highlights how product diversity evolved over the year.
+
+### 3. Unique Product Counts by Segment
+The results provide insights into the number of unique products available in each segment, allowing stakeholders to identify which segments have a higher product variety.
+
+### 4. Segment with Most Increase in Unique Products (2021 vs 2020)
+This report identifies the segment with the most significant growth in unique products between 2020 and 2021, helping to pinpoint areas of expansion or increased focus.
+
+### 5. Products with Highest and Lowest Manufacturing Costs
+The findings include products with the highest and lowest manufacturing costs, offering a perspective on cost distribution and potential areas for cost management.
+
+### 6. Top 5 Customers with Highest Average Pre-Invoice Discount (2021, India)
+This query highlights the top 5 customers who received the highest average pre-invoice discount in the Indian market for 2021. It provides insights into customer discount patterns and their impact on sales.
+
+### 7. Gross Sales Amount for "Atliq Exclusive" by Month
+The monthly gross sales figures for "Atliq Exclusive" illustrate the performance trends throughout the year, helping to identify peak and low-performing months.
+
+### 8. Quarter with Maximum Total Sold Quantity in 2020
+The analysis identifies the quarter with the highest total sold quantity in 2020, providing a snapshot of sales performance trends within the year.
+
+### 9. Top Sales Channel and Contribution Percentage (2021)
+This report reveals the top sales channel and its contribution percentage to overall sales in 2021, highlighting the most effective sales channels for the year.
+
+### 10. Top 3 Products by Division in 2021
+The results showcase the top 3 products by total sold quantity within each division for 2021, offering a view of high-performing products across different divisions.
+
