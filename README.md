@@ -23,39 +23,46 @@ This repository showcases various SQL queries and their corresponding results, p
 - **Description:** This visualization displays the markets in the APAC region where "Atliq Exclusive" operates its business.
 
 ### 2. Percentage Increase in Unique Products (2021 vs 2020)
-![Unique Product Increase](results/Unique_Product_Increase_2020_vs_2021.png)
+![image](https://github.com/user-attachments/assets/337bef50-1e97-4d52-ab4d-b1633623b9ba)
+
 - **Description:** Shows the percentage change in the number of unique products from 2020 to 2021.
 
 ### 3. Unique Product Counts by Segment
-![Product Counts by Segment](results/Product_Counts_By_Segment.png)
+![image](https://github.com/user-attachments/assets/287de908-8b60-4bfb-8e8e-9418b7e7a3ac)
+
 - **Description:** Provides the count of unique products for each segment, sorted in descending order.
 
 ### 4. Segment with Most Increase in Unique Products (2021 vs 2020)
-![Segment Growth](results/Segment_Growth_2020_vs_2021.png)
+![image](https://github.com/user-attachments/assets/944101c0-b48f-4120-808a-72a65a0530d7)
+
 - **Description:** Highlights the segment with the highest increase in unique products between 2020 and 2021.
 
 ### 5. Products with Highest and Lowest Manufacturing Costs
-![Manufacturing Costs](results/Manufacturing_Costs_Highest_Lowest.png)
+![image](https://github.com/user-attachments/assets/5266ad49-6ad3-4e62-8a68-c43964f08e3b)
+
 - **Description:** Displays products with the highest and lowest manufacturing costs.
 
 ### 6. Top 5 Customers with Highest Average Pre-Invoice Discount (2021)
-![Top Discount Customers](results/Top_Discount_Customers_2021.png)
+![image](https://github.com/user-attachments/assets/babc536a-5a9c-46a4-9f17-0649612fa3ee)
+
 - **Description:** Lists the top 5 customers with the highest average pre-invoice discount percentages for 2021 in the Indian market.
 
 ### 7. Gross Sales Amount for Atliq Exclusive by Month
-![Gross Sales](results/Gross_Sales_Atliq_Exclusive_Monthly.png)
+![image](https://github.com/user-attachments/assets/7c0aa56a-d827-44aa-8110-aec83cbc68bb)
+
 - **Description:** Shows the gross sales amount for "Atliq Exclusive" for each month, indicating high and low-performing periods.
 
 ### 8. Quarter with Maximum Total Sold Quantity in 2020
-![Quarterly Sales](results/Quarterly_Sales_Max_2020.png)
+![image](https://github.com/user-attachments/assets/611236f7-81fb-4e96-8b74-e4dd16182b79)
+
 - **Description:** Identifies the quarter in 2020 with the maximum total sold quantity.
 
 ### 9. Top Sales Channel and Contribution Percentage (2021)
-![Sales Channel Performance](results/Sales_Channel_Performance_2021.png)
+![image](https://github.com/user-attachments/assets/99d30f6f-7ebd-4bec-ad19-33a11bd60577)
 - **Description:** Reveals the channel with the highest gross sales for 2021 and its contribution percentage.
 
 ### 10. Top 3 Products by Division (2021)
-![Top Products](results/Top_Products_By_Division_2021.png)
+![image](https://github.com/user-attachments/assets/ad36e0da-6585-428e-b0bb-e1bb967c289d)
 - **Description:** Lists the top 3 products in each division with the highest total sold quantities for 2021.
 
 ## SQL Queries
