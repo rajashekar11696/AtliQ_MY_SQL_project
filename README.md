@@ -18,7 +18,8 @@ This repository showcases various SQL queries and their corresponding results, p
 ## Results
 
 ### 1. Market Presence for Atliq Exclusive in APAC
-![Market Presence](results/Market_Presence_Atliq_Exclusive_APAC.png)
+![image](https://github.com/user-attachments/assets/0dfa4068-68bd-45b3-947c-46e3f1d9154b)
+
 - **Description:** This visualization displays the markets in the APAC region where "Atliq Exclusive" operates its business.
 
 ### 2. Percentage Increase in Unique Products (2021 vs 2020)
