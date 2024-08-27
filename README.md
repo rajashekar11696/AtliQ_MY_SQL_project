@@ -7,9 +7,7 @@ Welcome to the **Data Analysis Results** repository! This repository contains SQ
 - [Introduction](#introduction)
 - [Results](#results)
 - [SQL Queries](#sql-queries)
-- [How to Use](#how-to-use)
-- [Contributing](#contributing)
-- [License](#license)
+
 
 ## Introduction
 
@@ -65,18 +63,192 @@ This repository showcases various SQL queries and their corresponding results, p
 ![image](https://github.com/user-attachments/assets/ad36e0da-6585-428e-b0bb-e1bb967c289d)
 - **Description:** Lists the top 3 products in each division with the highest total sold quantities for 2021.
 
+Your SQL queries and descriptions are clear and well-organized. Here’s a refined version of your SQL queries with comments to help you maintain clarity:
+
 ## SQL Queries
 
-The `/scripts/` directory contains the SQL queries used to generate the results presented in this repository. Each query file corresponds to a specific analysis:
+### 1. List of Markets for "Atliq Exclusive" in the APAC Region
+```sql
+SELECT Market, Customer, Region 
+FROM dim_customer 
+WHERE Customer = 'Atliq Exclusive' AND Region = 'APAC';
+```
 
-- **market_presence_query.sql**: SQL query for market presence analysis.
-- **unique_product_increase_query.sql**: SQL query for percentage increase in unique products.
-- **segment_product_count_query.sql**: SQL query for unique product counts by segment.
-- **segment_growth_comparison_query.sql**: SQL query for segment growth comparison.
-- **manufacturing_costs_query.sql**: SQL query for manufacturing costs analysis.
-- **top_discount_customers_query.sql**: SQL query for top discount customers.
-- **gross_sales_report_query.sql**: SQL query for gross sales report.
-- **quarterly_sales_query.sql**: SQL query for quarterly sales insights.
-- **sales_channel_performance_query.sql**: SQL query for sales channel performance.
-- **top_products_by_division_query.sql**: SQL query for top products by division.
+### 2. Percentage Increase in Unique Products (2021 vs 2020)
+```sql
+WITH Unique_products_2020 AS (
+    SELECT COUNT(DISTINCT product) AS dis2020 
+    FROM dim_product dp
+    JOIN fact_sales_monthly fsm ON dp.product_code = fsm.product_code 
+    WHERE fiscal_year = 2020
+),
+Unique_products_2021 AS (
+    SELECT COUNT(DISTINCT product) AS dis2021 
+    FROM dim_product dp
+    JOIN fact_sales_monthly fsm ON dp.product_code = fsm.product_code 
+    WHERE fiscal_year = 2021
+)
+SELECT 
+    dis2020,
+    dis2021,
+    ROUND((dis2021 - dis2020) / dis2020 * 100, 2) AS percentage_chg 
+FROM Unique_products_2020, Unique_products_2021;
+```
 
+### 3. Unique Product Counts by Segment
+```sql
+SELECT segment, COUNT(DISTINCT product) AS product_count 
+FROM dim_product dp
+JOIN fact_sales_monthly fsm ON dp.product_code = fsm.product_code 
+GROUP BY segment
+ORDER BY product_count DESC;
+```
+
+### 4. Segment with Most Increase in Unique Products (2021 vs 2020)
+```sql
+WITH Unique_products_2020 AS (
+    SELECT 
+        segment, 
+        COUNT(DISTINCT product) AS product_count_2020
+    FROM dim_product dp
+    JOIN fact_sales_monthly fsm ON dp.product_code = fsm.product_code 
+    WHERE fiscal_year = 2020 
+    GROUP BY segment
+),
+Unique_products_2021 AS (
+    SELECT 
+        segment, 
+        COUNT(DISTINCT product) AS product_count_2021
+    FROM dim_product dp
+    JOIN fact_sales_monthly fsm ON dp.product_code = fsm.product_code 
+    WHERE fiscal_year = 2021 
+    GROUP BY segment
+)
+SELECT 
+    u2020.segment, 
+    u2020.product_count_2020, 
+    u2021.product_count_2021, 
+    (u2021.product_count_2021 - u2020.product_count_2020) AS difference
+FROM Unique_products_2020 u2020
+JOIN Unique_products_2021 u2021 ON u2020.segment = u2021.segment
+ORDER BY difference DESC;
+```
+
+### 5. Products with Highest and Lowest Manufacturing Costs
+```sql
+WITH ranked_products AS (
+    SELECT 
+        product, 
+        dp.product_code, 
+        manufacturing_cost,
+        RANK() OVER (ORDER BY manufacturing_cost ASC) AS rank_asc,
+        RANK() OVER (ORDER BY manufacturing_cost DESC) AS rank_desc
+    FROM dim_product dp
+    JOIN fact_manufacturing_cost fmc ON dp.product_code = fmc.product_code
+)
+SELECT 
+    product, 
+    product_code, 
+    manufacturing_cost
+FROM ranked_products
+WHERE rank_asc = 1 OR rank_desc = 1;
+```
+
+### 6. Top 5 Customers with Highest Average Pre-Invoice Discount (2021, India)
+```sql
+SELECT 
+    fsm.customer_code,
+    customer,
+    AVG(pre_invoice_discount_pct) AS average_discount_percentage
+FROM fact_pre_invoice_deductions fpid
+JOIN dim_customer dc ON fpid.customer_code = dc.customer_code
+JOIN fact_sales_monthly fsm ON dc.customer_code = fsm.customer_code
+WHERE fsm.fiscal_year = 2021 AND market = 'India'
+GROUP BY fsm.customer_code, customer
+ORDER BY average_discount_percentage DESC
+LIMIT 5;
+```
+
+### 7. Gross Sales Amount for "Atliq Exclusive" by Month
+```sql
+WITH sales_data AS (
+    SELECT 
+        MONTH(date) AS month,
+        YEAR(date) AS year,
+        ROUND((gross_price * Sold_quantity), 2) AS total_sales
+    FROM fact_gross_price fgp
+    JOIN fact_sales_monthly fsm ON fgp.product_code = fsm.product_code
+    JOIN dim_customer dm ON fsm.customer_code = dm.customer_code
+    WHERE customer = 'Atliq Exclusive'
+)
+SELECT 
+    month, 
+    year, 
+    SUM(total_sales) AS gross_sales_amount
+FROM sales_data
+GROUP BY month, year
+ORDER BY year ASC, month ASC;
+```
+
+### 8. Quarter with Maximum Total Sold Quantity in 2020
+```sql
+SELECT 
+    QUARTER(date) AS quarter,
+    SUM(Sold_quantity) AS total_sold_quantity
+FROM fact_sales_monthly
+WHERE YEAR(date) = 2020
+GROUP BY QUARTER(date)
+ORDER BY total_sold_quantity DESC
+LIMIT 1;
+```
+
+### 9. Top Sales Channel and Contribution Percentage (2021)
+```sql
+WITH channel_sales AS (
+    SELECT 
+        dm.channel,
+        SUM(ROUND(gross_price * Sold_quantity, 2)) AS channel_sales
+    FROM fact_gross_price fgp
+    JOIN fact_sales_monthly fsm ON fgp.product_code = fsm.product_code
+    JOIN dim_customer dm ON fsm.customer_code = dm.customer_code
+    WHERE fsm.fiscal_year = 2021
+    GROUP BY dm.channel
+),
+total_sales AS (
+    SELECT 
+        SUM(channel_sales) AS total_sales 
+    FROM channel_sales
+)
+SELECT 
+    channel_sales.channel,
+    ROUND((channel_sales.channel_sales / total_sales.total_sales) * 100, 2) AS percentage
+FROM channel_sales, total_sales
+ORDER BY percentage DESC;
+```
+
+### 10. Top 3 Products by Division in 2021
+```sql
+WITH RankedProducts AS (
+    SELECT 
+        division, 
+        dp.product_code, 
+        dp.product, 
+        SUM(fsm.sold_quantity) AS total_sold_quantity,
+        RANK() OVER (PARTITION BY division ORDER BY SUM(fsm.sold_quantity) DESC) AS rank_order
+    FROM dim_product dp
+    JOIN fact_sales_monthly fsm ON dp.product_code = fsm.product_code
+    WHERE fsm.fiscal_year = 2021
+    GROUP BY division, dp.product_code, dp.product
+)
+SELECT 
+    division, 
+    product_code, 
+    product, 
+    total_sold_quantity, 
+    rank_order
+FROM RankedProducts
+WHERE rank_order <= 3
+ORDER BY division, rank_order;
+```
+
+Feel free to adjust or expand on these queries based on your specific requirements or database schema.
